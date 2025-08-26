@@ -97,6 +97,49 @@ const submitCode = async (req, res) => {
     }  
 }
 
+const runCode = async (req, res) => {
+    try{
+        const userId = req.result._id;  
+        const problemId = req.params.id;
+        const {language, code} = req.body;
+
+        if(!userId || !problemId || !language || !code) {
+            return res.status(400).send("Missing Fields");
+        }
+
+        //Fetch the problem from the database
+        const problem = await Problem.findById(problemId);
+        if(!problem) {
+            return res.status(404).send("Problem not found");
+        }
+
+        // Judge0 ko code submit karna hai
+        const languageId = getLanguageById(language);
+
+        // I am creating Batch Submission
+        const submissions = problem.visibleTestCases.map((testcase) => ({
+            source_code: code,
+            language_id: languageId,
+            stdin: testcase.input,
+            expected_output: testcase.output
+        }));
+
+        const submitResult = await submitBatch(submissions);
+
+        const resultToken = submitResult.map((value) => value.token); // array of tokens of all testcases
+
+        const testResult = await submitToken(resultToken);
+
+        res.status(201).send(testResult);
+
+
+    }
+    catch(err){
+        res.status(500).send("Internal Server Error: " + err);
+    }  
+}
+
 module.exports = {
-    submitCode
+    submitCode,
+    runCode
 }
