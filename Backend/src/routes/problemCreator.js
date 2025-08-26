@@ -1,6 +1,6 @@
 const express = require('express');
 const adminMiddleware = require('../middleware/adminMiddleware');
-const { createProblem, updateProblem, deleteProblem, getProblemById, getAllProblem, allSolvedProblemByUser } = require('../controllers/userProblem');
+const { createProblem, updateProblem, deleteProblem, getProblemById, getAllProblem } = require('../controllers/userProblem');
 const userMiddleware = require('../middleware/userMiddleware');
 
 const problemRouter = express.Router();
@@ -8,7 +8,7 @@ const problemRouter = express.Router();
 
 //create
 problemRouter.post('/create', adminMiddleware, createProblem);
-update
+// update
 problemRouter.put('/update/:id', adminMiddleware, updateProblem);
 //delete
 problemRouter.delete('/delete/:id', adminMiddleware, deleteProblem);
@@ -18,6 +18,6 @@ problemRouter.delete('/delete/:id', adminMiddleware, deleteProblem);
 problemRouter.get('/problemById/:id', userMiddleware, getProblemById);
 problemRouter.get('/getAllProblem/', userMiddleware, getAllProblem);
 //user's solved problem
-problemRouter.get('/problemSolvedByUser', userMiddleware, allSolvedProblemByUser);
+// problemRouter.get('/problemSolvedByUser', userMiddleware, allSolvedProblemByUser);
 
 module.exports = problemRouter;

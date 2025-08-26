@@ -13,7 +13,8 @@ const submissionSchema = new mongoose.Schema({
     },
     language: {
         type: String,
-        required: true
+        required: true,
+        enum: ['c++', 'java', 'javascript']
     },
     code: {
         type: String,
@@ -48,6 +49,6 @@ const submissionSchema = new mongoose.Schema({
     timestamps: true
 });
 
-const Submission = mongoose.model('Submission', submissionSchema);
+const Submission = mongoose.model('submission', submissionSchema);
 module.exports = Submission;
     

@@ -23,12 +23,12 @@ const createProblem = async (req, res) => {
             }));
 
             const submitResult = await submitBatch(submissions);
-            console.log(submitResult);
+            // console.log(submitResult);
 
             const resultToken = submitResult.map((value) => value.token); // array of tokens of all testcases
 
             const testResult = await submitToken(resultToken);
-            console.log(testResult);
+            // console.log(testResult);
 
             for(const test of testResult) {
                 if(test.status_id !== 3) {
@@ -59,7 +59,7 @@ const updateProblem = async (req, res) => {
     try {
 
         if(!id){
-            res.status(400).send("Missing ID Field");
+            return res.status(400).send("Missing ID Field");
         }
 
         const dsaProblem = await Problem.findById(id);
@@ -95,7 +95,7 @@ const updateProblem = async (req, res) => {
             
         }
 
-        const newProblem = Problem.findByIdAndUpdate(id, {...req.body}, {runValidators:true, new:true});
+        const newProblem = await Problem.findByIdAndUpdate(id, {...req.body}, {runValidators:true, new:true});
 
         res.status(200).send(newProblem);
     }
@@ -109,7 +109,7 @@ const deleteProblem = async (req, res) => {
 
     try {
         if(!id){
-            res.status(400).send("Missing ID Field");
+            return res.status(400).send("Missing ID Field");
         }
 
         const problem = await Problem.findByIdAndDelete(id);
@@ -128,10 +128,10 @@ const getProblemById = async (req, res) => {
 
     try {
         if(!id){
-            res.status(400).send("Missing ID Field");
+            return res.status(400).send("Missing ID Field");
         }
 
-        const getProblem = await Problem.findById(id);
+        const getProblem = await Problem.findById(id).select('_id title description difficulty tags visibleTestCases startCode referenceSolution');
         if(!getProblem) {
             return res.status(404).send("Problem is missing");
         }
@@ -144,7 +144,7 @@ const getProblemById = async (req, res) => {
 
 const getAllProblem = async (req, res) => {
     try {
-        const getProblems = await Problem.find({});
+        const getProblems = await Problem.find({}).select('_id title difficulty tags');
 
         if(getProblems.length === 0) {
             return res.status(404).send("Problem is missing");
@@ -157,8 +157,6 @@ const getAllProblem = async (req, res) => {
     }
 }
 
-const allSolvedProblemByUser = async (req, res) => {
-    
 
 module.exports = {
     createProblem,
@@ -166,5 +164,4 @@ module.exports = {
     deleteProblem,
     getProblemById,
     getAllProblem,
-    allSolvedProblemByUser
 }

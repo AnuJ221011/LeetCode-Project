@@ -32,7 +32,11 @@ const userSchema = new mongoose.Schema({
         default: 'user'
     },
     problemSolved: {
-        type: [String]
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'problem'
+        }],
+        unique: true
     },
     password: {
         type: String,
