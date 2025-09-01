@@ -22,13 +22,13 @@ const submitCode = async (req, res) => {
 
         // kya apne submission store kr du phle....
         const submittedResult = await Submission.create({
-            problemId, 
             userId, 
-            language, 
+            problemId, 
             code,
+            language, 
             testCasesPassed:0,
             status:"pending",
-            testCasesTotal:problem.hiddenTestCases.length
+            totalTestCases:problem.hiddenTestCases.length
         });
 
         // Judge0 ko code submit karna hai
@@ -63,7 +63,7 @@ const submitCode = async (req, res) => {
             }
             else{
                 if(test.status_id == 4) {
-                    status = 'error';
+                    status = 'runtime-error';
                     errorMessage = test.stderr;
                 }
                 else {
@@ -79,10 +79,12 @@ const submitCode = async (req, res) => {
         submittedResult.memory = memory;
         submittedResult.status = status;
         submittedResult.errorMessage = errorMessage;
+        submittedResult.totalTestCases = problem.hiddenTestCases.length;
         await submittedResult.save();
 
 
-        //problemId ko insert karenge userSchema ke problemSolved me if it is not present there.
+        //problemId ko insert karenge userSchema ke 
+        // problemSolved me if it is not present there.
         if(!req.result.problemSolved.includes(problemId)){
             req.result.problemSolved.push(problemId);
             await req.result.save();

@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const submissionSchema = new mongoose.Schema({
     problemId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Problem',
+        ref: 'problem',
         required: true
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
         required: true
     },
     language: {
@@ -48,6 +48,8 @@ const submissionSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+
+submissionSchema.index({ userId: 1, problemId: 1 });
 
 const Submission = mongoose.model('submission', submissionSchema);
 module.exports = Submission;

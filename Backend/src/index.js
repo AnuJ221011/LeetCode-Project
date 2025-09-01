@@ -34,13 +34,4 @@ const InitializeConnection = async () => {
 InitializeConnection();
 
 
-// main()
-//     .then(async () => {
-//         await connectDB();
-//         app.listen(process.env.PORT, () => {
-//             console.log(`Server is running on http://localhost:${process.env.PORT}`);
-//         });
-//     })
-//     .catch(console.error);
-
 

@@ -1,4 +1,5 @@
 const redisClient = require('../config/redis');
+const Submission = require('../models/submission');
 const User = require('../models/user');
 const validate = require('../utils/validator');
 const bcrypt = require('bcrypt');
@@ -94,9 +95,27 @@ const adminRegister = async (req, res) => {
     }
 }
 
+const deleteProfile = async (req, res) => {
+    try {
+        const userId = req.result._id;
+
+        //userSchema se delete
+        await User.findByIdAndDelete(userId);
+        
+        //submission se delete
+        await Submission.deleteMany({userId});
+
+        res.status(200).send('Profile Deleted Successfully');
+    }
+    catch(err) {
+        res.status(500).send("Error: " + err);
+    }
+}
+
 module.exports = {
     register,
     login,
     logout,
-    adminRegister
+    adminRegister,
+    deleteProfile
 };
