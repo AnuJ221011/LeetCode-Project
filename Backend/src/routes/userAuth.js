@@ -11,6 +11,18 @@ authRouter.post('/admin/register', adminMiddleware, adminRegister); //admin regi
 authRouter.post('/login', login); //user login
 authRouter.post('/logout', userMiddleware, logout); // user logout using Redis middleware
 authRouter.delete('/deleteProfile', userMiddleware, deleteProfile);
+authRouter.get('/check', userMiddleware, (req, res) => { // to check if user is authenticated
+    const reply = {
+        firstName: req.result.firstName,
+        emailId: req.result.emailId,
+        _id: req.result._id
+    }
+
+    res.status(200).json({
+        user: reply,
+        message: 'User is Authenticated'
+    });
+});
 
 // authRouter.get('/profile', getProfile);
 

@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema({
     },
     lastName: {
         type: String,
-        required: true,
         minLength:3,
         maxLength:20
     },
@@ -35,8 +34,7 @@ const userSchema = new mongoose.Schema({
         type: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'problem'
-        }],
-        unique: true
+        }]
     },
     password: {
         type: String,

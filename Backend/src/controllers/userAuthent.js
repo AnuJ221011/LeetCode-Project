@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const register = async (req, res) => {
     try {
         console.log('Calling auth controller');
+        console.log('Request body:', req.body); 
         //validate the data;
         validate(req.body);
 
@@ -18,8 +19,19 @@ const register = async (req, res) => {
 
         const user = await User.create(req.body);
         const token = jwt.sign({_id:user._id, role:'user',emailId:emailId}, process.env.JWT_SECRET, {expiresIn: "1h"});
+
+        // data to send back to frontend
+        const reply = {
+            firstName: user.firstName,
+            emailId: user.emailId,
+            _id: user._id
+        }
+
         res.cookie('token', token, {maxAge:60*60*1000});
-        res.status(201).send('User Registered Successfully');
+        res.status(201).json({
+            user:reply,
+            message:'User Registered Successfully'
+        });
         
     }
     catch (error) {
@@ -44,9 +56,20 @@ const login = async (req, res) => {
         if(!isMatch) {
             throw new Error("Invalid Credentials");
         }
+
+        // data to send back to frontend
+        const reply = {
+            firstName: user.firstName,
+            emailId: user.emailId,
+            _id: user._id
+        }
+
         const token = jwt.sign({_id:user._id, role:user.role, emailId:emailId}, process.env.JWT_SECRET, {expiresIn: "1h"});
         res.cookie('token', token, {maxAge:60*60*1000});
-        res.status(201).send('User Logged In Successfully');
+        res.status(201).json({
+            user:reply,
+            message:'User Logged In Successfully'
+        });
     }
     catch (error) {
         res.status(401).send("Error :" + error);
