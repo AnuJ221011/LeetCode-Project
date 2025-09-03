@@ -32,7 +32,7 @@ function App() {
         <Route path='/login' element={isAuthenticated ? <Navigate to="/" /> : <Login/>} />
         <Route path='/signup' element={isAuthenticated ? <Navigate to="/" /> : <Signup/>} />
 
-        {/* <Route path="/admin" element={isAuthenticated && user?.role === "admin" ? <AdminPanel /> : <Navigate to="/" />} /> */}
+        <Route path="/admin" element={isAuthenticated && user?.role === "admin" ? <AdminPanel /> : <Navigate to="/" />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </>
