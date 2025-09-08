@@ -162,7 +162,7 @@ function Homepage() {
                 <div className="flex justify-between items-center">
                   <h2 className="card-title text-lg">
                     <Link
-                      to={`/problems/${problem._id}`}
+                      to={`/problem/${problem._id}`}
                       className="hover:text-blue-500"
                     >
                       {problem.title}

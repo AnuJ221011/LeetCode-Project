@@ -5,6 +5,8 @@ import Signup from "./pages/Signup"
 import {checkAuth} from "./authSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
+import AdminPanel from "./pages/AdminPanel"
+import ProblemPage from "./pages/ProblemPage"
 
 function App() {
 
@@ -25,6 +27,9 @@ function App() {
     )
   }
 
+  console.log("user:", user);
+  console.log("isAuthenticated:", isAuthenticated);
+
   return (
     <>
       <Routes>
@@ -32,7 +37,17 @@ function App() {
         <Route path='/login' element={isAuthenticated ? <Navigate to="/" /> : <Login/>} />
         <Route path='/signup' element={isAuthenticated ? <Navigate to="/" /> : <Signup/>} />
 
-        <Route path="/admin" element={isAuthenticated && user?.role === "admin" ? <AdminPanel /> : <Navigate to="/" />} />
+        <Route
+          path="/admin"
+          element={
+            isAuthenticated && user?.role === "admin"
+              ? <AdminPanel />
+              : <Navigate to="/" />
+          }
+        />
+
+        {/* <Route path="/admin" element={<AdminPanel />} /> */}
+        <Route path="/problem/:problemId" element={<ProblemPage />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </>
