@@ -5,8 +5,10 @@ import Signup from "./pages/Signup"
 import {checkAuth} from "./authSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-import AdminPanel from "./pages/AdminPanel"
+import AdminPanel from "./components/AdminPanel"
+import AdminDelete from "./components/AdminDelete"
 import ProblemPage from "./pages/ProblemPage"
+import Admin from "./pages/Admin"
 
 function App() {
 
@@ -41,12 +43,12 @@ function App() {
           path="/admin"
           element={
             isAuthenticated && user?.role === "admin"
-              ? <AdminPanel />
+              ? <Admin />
               : <Navigate to="/" />
           }
         />
-
-        {/* <Route path="/admin" element={<AdminPanel />} /> */}
+        <Route path="/admin/create" element={isAuthenticated && user?.role === "admin" ? <AdminPanel /> : <Navigate to="/" />} />
+        <Route path="/admin/delete" element={isAuthenticated && user?.role === "admin" ? <AdminDelete /> : <Navigate to="/" />} />
         <Route path="/problem/:problemId" element={<ProblemPage />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>

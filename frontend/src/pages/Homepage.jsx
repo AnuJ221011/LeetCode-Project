@@ -102,6 +102,11 @@ function Homepage() {
                 <li>
                   <button onClick={handleLogout}>Logout</button>
                 </li>
+                {user.role === "admin" && (
+                  <li>
+                    <NavLink to="/admin">Admin</NavLink>
+                  </li>
+                )}
               </ul>
             </div>
           )}
@@ -156,17 +161,17 @@ function Homepage() {
 
         {/* Problems List */}
         <div className="grid gap-4">
-          {currentProblems.map((problem) => (
+          {filteredProblems.map((problem) => (
             <div key={problem._id} className="card bg-base-100 shadow-md">
               <div className="card-body p-4 py-3">
                 <div className="flex justify-between items-center">
                   <h2 className="card-title text-lg">
-                    <Link
+                    <NavLink
                       to={`/problem/${problem._id}`}
                       className="hover:text-blue-500"
                     >
                       {problem.title}
-                    </Link>
+                    </NavLink>
                   </h2>
                   {solvedProblems.some((sp) => sp._id === problem._id) && (
                     <div className="badge badge-success gap-2">
