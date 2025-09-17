@@ -9,6 +9,7 @@ import AdminPanel from "./components/AdminPanel"
 import AdminDelete from "./components/AdminDelete"
 import ProblemPage from "./pages/ProblemPage"
 import Admin from "./pages/Admin"
+import ChatAi from "./components/ChatAi"
 
 function App() {
 
@@ -50,6 +51,7 @@ function App() {
         <Route path="/admin/create" element={isAuthenticated && user?.role === "admin" ? <AdminPanel /> : <Navigate to="/" />} />
         <Route path="/admin/delete" element={isAuthenticated && user?.role === "admin" ? <AdminDelete /> : <Navigate to="/" />} />
         <Route path="/problem/:problemId" element={<ProblemPage />} />
+        <Route path="/ai/chat" element={<ChatAi />} />
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </>
